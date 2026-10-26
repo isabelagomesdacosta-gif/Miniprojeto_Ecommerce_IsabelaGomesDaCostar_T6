@@ -1,0 +1,16 @@
+{
+  "name": "miniprojeto-ecommerce",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mini-projeto de e-commerce em TypeScript - T6",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/main.js",
+    "demo": "npm run build && npm start",
+    "test": "npm run build && node --test regras.test.cjs"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "@types/node": "^24.0.0"
+  }
+}

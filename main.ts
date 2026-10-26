@@ -3,6 +3,7 @@ import { conferir, demonstrarErro } from "./demonstracao";
 import { atualizarProduto, buscarProdutoPorId, buscarProdutosPorNome, cadastrarProduto, filtrarProdutosPorCategoria, listarProdutos, removerProduto } from "./produtos";
 import { buscarClientePorId, cadastrarCliente, listarClientes } from "./clientes";
 import { adicionarProduto, alterarQuantidade, calcularTotal, criarCarrinho, listarItens, removerProdutoDoCarrinho } from "./carrinho";
+import { buscarPedidosPorCliente, finalizarPedido, listarPedidos } from "./pedidos";
 
 
 console.log("\nETAPA 1 - Estrutura, tipos e dados iniciais");
@@ -41,3 +42,26 @@ conferir(calcularTotal(carrinho) === 60.60, "Total de 2 cadernos e 3 canetas = R
 demonstrarErro("Quantidade acima do estoque", () => adicionarProduto(carrinho, 1, 100), "Estoque insuficiente");
 demonstrarErro("Quantidade zero", () => alterarQuantidade(carrinho, 1, 0), "Quantidade inválida");
 demonstrarErro("Produto inexistente", () => adicionarProduto(carrinho, 999, 1), "Produto inexistente");
+
+console.log("\nETAPA 4 - Pedidos e estoque");
+const pedido = finalizarPedido(1, carrinho);
+console.log("Pedido criado:", pedido);
+console.log("Pedidos registrados:", listarPedidos());
+console.log("Pedidos do cliente 1:", buscarPedidosPorCliente(1));
+conferir(buscarProdutoPorId(1)?.estoque === 8 && buscarProdutoPorId(2)?.estoque === 17, "Estoque descontado após a compra");
+conferir(carrinho.length === 0, "Carrinho esvaziado após sucesso");
+atualizarProduto(1, { preco: 30 });
+conferir(listarPedidos()[0].total === 60.60 && listarPedidos()[0].itens[0].precoUnitario === 25.50, "Preço histórico preservado");
+demonstrarErro("Compra sem itens", () => finalizarPedido(1, criarCarrinho()), "vazio");
+const semCliente = criarCarrinho();
+adicionarProduto(semCliente, 2, 1);
+demonstrarErro("Cliente inexistente", () => finalizarPedido(999, semCliente), "Cliente inexistente");
+// Um item fica sem estoque depois de ter sido colocado no carrinho.
+const carrinhoComFalha = criarCarrinho();
+adicionarProduto(carrinhoComFalha, 1, 1);
+adicionarProduto(carrinhoComFalha, 3, 1);
+atualizarProduto(3, { estoque: 0 });
+const estoqueAntes = buscarProdutoPorId(1)!.estoque;
+const pedidosAntes = listarPedidos().length;
+demonstrarErro("Falha no segundo item", () => finalizarPedido(1, carrinhoComFalha), "Estoque insuficiente");
+conferir(buscarProdutoPorId(1)!.estoque === estoqueAntes && listarPedidos().length === pedidosAntes && carrinhoComFalha.length === 2, "Falha não altera estoque, pedidos ou carrinho");

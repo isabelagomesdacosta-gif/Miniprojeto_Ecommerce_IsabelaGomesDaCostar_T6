@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "start": "node dist/main.js",
-    "demo": "npm run build && npm start"
+    "demo": "npm run build && npm start",
+    "test": "npm run build && node --test regras.test.cjs"
   },
   "devDependencies": {
     "typescript": "~5.9.3",

@@ -75,3 +75,7 @@ console.log("Resumo das vendas:", gerarResumoVendas());
 console.log("Vendas por produto:", gerarVendasPorProduto());
 conferir(gerarResumoVendas().quantidadePedidos === 2 && gerarResumoVendas().faturamento === 76.60, "Dois pedidos somam R$ 76,60");
 conferir(gerarResumoVendas().unidadesVendidas === 10 && gerarResumoVendas().ticketMedio === 38.30, "10 unidades e ticket médio de R$ 38,30");
+
+console.log("\nETAPA 6 - Revisão final");
+console.log("Demonstração concluída. Consulte README.md.");
+console.log("Os dados são fictícios e permanecem somente em memória.");

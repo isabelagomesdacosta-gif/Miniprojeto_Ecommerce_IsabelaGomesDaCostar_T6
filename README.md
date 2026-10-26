@@ -1,7 +1,7 @@
 # Mini-projeto E-commerce em TypeScript
 
 **Aluna:** Isabela Gomes da Costa.  
-**Turma:** Desenvolvedor Back-End Node T6, Módulo 1, Semana 7, conforme o enunciado. Confirmar identificação no AVA antes da publicação.
+**Turma:** Desenvolvedor Back-End Node T6
 
 ## Objetivo
 

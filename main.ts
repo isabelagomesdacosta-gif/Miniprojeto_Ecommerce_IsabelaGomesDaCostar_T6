@@ -4,6 +4,7 @@ import { atualizarProduto, buscarProdutoPorId, buscarProdutosPorNome, cadastrarP
 import { buscarClientePorId, cadastrarCliente, listarClientes } from "./clientes";
 import { adicionarProduto, alterarQuantidade, calcularTotal, criarCarrinho, listarItens, removerProdutoDoCarrinho } from "./carrinho";
 import { buscarPedidosPorCliente, finalizarPedido, listarPedidos } from "./pedidos";
+import { gerarResumoVendas, gerarVendasPorProduto } from "./relatorios";
 
 
 console.log("\nETAPA 1 - Estrutura, tipos e dados iniciais");
@@ -65,3 +66,12 @@ const estoqueAntes = buscarProdutoPorId(1)!.estoque;
 const pedidosAntes = listarPedidos().length;
 demonstrarErro("Falha no segundo item", () => finalizarPedido(1, carrinhoComFalha), "Estoque insuficiente");
 conferir(buscarProdutoPorId(1)!.estoque === estoqueAntes && listarPedidos().length === pedidosAntes && carrinhoComFalha.length === 2, "Falha não altera estoque, pedidos ou carrinho");
+
+console.log("\nETAPA 5 - Integração e relatórios");
+const segundoCarrinho = criarCarrinho();
+adicionarProduto(segundoCarrinho, 2, 5);
+finalizarPedido(2, segundoCarrinho);
+console.log("Resumo das vendas:", gerarResumoVendas());
+console.log("Vendas por produto:", gerarVendasPorProduto());
+conferir(gerarResumoVendas().quantidadePedidos === 2 && gerarResumoVendas().faturamento === 76.60, "Dois pedidos somam R$ 76,60");
+conferir(gerarResumoVendas().unidadesVendidas === 10 && gerarResumoVendas().ticketMedio === 38.30, "10 unidades e ticket médio de R$ 38,30");
